@@ -9,22 +9,91 @@ h1 {
     line-height: 24px;
 }
 
-#aws {
-    width: 150px;
-    display: block;
-    margin-left: calc(50vw - 75px);
+#Board {
+    
+    aspect-ratio: 1;
+    margin: auto;
+    border-style: solid;
+    border-width: 4px;
+    border-color: black;
 }
 
-#github {
+@media (min-height: 550px)
+{
+
+    #Board {
+        height: calc(100vh - 275px);
+    }
+
+    @media (max-width: calc(100vh - 250px))
+    {
+
+        #Board {
+            height: auto;
+            width: 80%;
+        }
+
+        #Page {
+            transform: translateY(calc(50vh - 50%));
+        }
+
+    }
+
+}
+
+@media (max-height: 550px)
+{
+
+    #Board {
+        width: 80%;
+    }
+
+}
+
+.Row {
+    height: 12.5%;
+    width: 100%;
+    font-size: 0;
+}
+
+.Square {
+    height: 100%;
+    width: 12.5%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.Dark {
+    background-color: lightgray;
+}
+
+.Location {
+    color: gray;
+    font-size: 1cqw;
+    text-align: right;
+    margin: 0;
+    margin-right: .2cqw;
+    margin-top: .2cqw;
+}
+
+#AWS {
+    width: 150px;
+    margin-top: 15px;
+}
+
+#Github {
     width: 40px;
     margin-top: 15px;
+    margin-left: 50px;
     border-style: solid;
     border-width: 2px;
     border-radius: 10px;
     padding: 10px;
-    border-color: black;
+    border-color: lightgray;
+    background-color: whitesmoke;
 }
 
-#github:hover {
-    background-color: rgb(225, 225, 225);
+#Github:hover {
+    background-color: lightgray;
+    border-color: gray;
 }
