@@ -68,12 +68,19 @@ h1 {
 }
 
 .Location {
+    width: 25%;
+    height: 22.5%;
     color: gray;
-    font-size: 1cqw;
-    text-align: right;
-    margin: 0;
-    margin-right: .2cqw;
-    margin-top: .2cqw;
+    margin-left: calc(75% - 2px);
+    margin-top: 2px;
+}
+
+.Piece {
+    height: 80%;
+    width: 80%;
+    padding: 10%;
+    position: relative;
+    bottom: calc(2px + 39.5%);
 }
 
 #AWS {

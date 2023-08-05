@@ -7,7 +7,7 @@
         <script src="index.js"></script>
     </head>
 
-    <body>
+    <body onresize="resizeLocations()" onload="resizeLocations()">
         <div id="Page">
             <h1>TeChess</h1>
         <h1 id="Record">0-0-0</h1>
@@ -16,209 +16,273 @@
             <div class="Row">
                 <div class="Square Light">
                     <p class="Location">a8</p>
+                    <img class="Piece" id="a8" src="./images/pieces/black_rook.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">b8</p>
+                    <img class="Piece" id="b8" src="./images/pieces/black_knight.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">c8</p>
+                    <img class="Piece" id="c8" src="./images/pieces/black_bishop.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">d8</p>
+                    <img class="Piece" id="d8" src="./images/pieces/black_king.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">e8</p>
+                    <img class="Piece" id="e8" src="./images/pieces/black_queen.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">f8</p>
+                    <img class="Piece" id="f8" src="./images/pieces/black_bishop.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">g8</p>
+                    <img class="Piece" id="g8" src="./images/pieces/black_knight.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">h8</p>
+                    <img class="Piece" id="h8" src="./images/pieces/black_rook.png"/>
                 </div>
             </div>
             <div class="Row">
                 <div class="Square Dark">
                     <p class="Location">a7</p>
+                    <img class="Piece" id="a7" src="./images/pieces/black_pawn.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">b7</p>
+                    <img class="Piece" id="b7" src="./images/pieces/black_pawn.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">c7</p>
+                    <img class="Piece" id="c7" src="./images/pieces/black_pawn.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">d7</p>
+                    <img class="Piece" id="d7" src="./images/pieces/black_pawn.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">e7</p>
+                    <img class="Piece" id="e7" src="./images/pieces/black_pawn.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">f7</p>
+                    <img class="Piece" id="f7" src="./images/pieces/black_pawn.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">g7</p>
+                    <img class="Piece" id="g7" src="./images/pieces/black_pawn.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">h7</p>
+                    <img class="Piece" id="h7" src="./images/pieces/black_pawn.png"/>
                 </div>
             </div>
             <div class="Row">
                 <div class="Square Light">
                     <p class="Location">a6</p>
+                    <img class="Piece" id="a6" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">b6</p>
+                    <img class="Piece" id="b6" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">c6</p>
+                    <img class="Piece" id="c6" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">d6</p>
+                    <img class="Piece" id="d6" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">e6</p>
+                    <img class="Piece" id="e6" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">f6</p>
+                    <img class="Piece" id="f6" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">g6</p>
+                    <img class="Piece" id="g6" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">h6</p>
+                    <img class="Piece" id="h6" src="./images/pieces/empty.png"/>
                 </div>
             </div>
             <div class="Row">
                 <div class="Square Dark">
                     <p class="Location">a5</p>
+                    <img class="Piece" id="a5" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">b5</p>
+                    <img class="Piece" id="b5" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">c5</p>
+                    <img class="Piece" id="c5" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">d5</p>
+                    <img class="Piece" id="d5" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">e5</p>
+                    <img class="Piece" id="e5" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">f5</p>
+                    <img class="Piece" id="f5" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">g5</p>
+                    <img class="Piece" id="g5" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">h5</p>
+                    <img class="Piece" id="h5" src="./images/pieces/empty.png"/>
                 </div>
             </div>
             <div class="Row">
                 <div class="Square Light">
                     <p class="Location">a4</p>
+                    <img class="Piece" id="a4" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">b4</p>
+                    <img class="Piece" id="b4" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">c4</p>
+                    <img class="Piece" id="c4" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">d4</p>
+                    <img class="Piece" id="d4" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">e4</p>
+                    <img class="Piece" id="e4" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">f4</p>
+                    <img class="Piece" id="f4" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">g4</p>
+                    <img class="Piece" id="g4" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">h4</p>
+                    <img class="Piece" id="h4" src="./images/pieces/empty.png"/>
                 </div>
             </div>
             <div class="Row">
                 <div class="Square Dark">
                     <p class="Location">a3</p>
+                    <img class="Piece" id="a3" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">b3</p>
+                    <img class="Piece" id="b3" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">c3</p>
+                    <img class="Piece" id="c3" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">d3</p>
+                    <img class="Piece" id="d3" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">e3</p>
+                    <img class="Piece" id="e3" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">f3</p>
+                    <img class="Piece" id="f3" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">g3</p>
+                    <img class="Piece" id="g3" src="./images/pieces/empty.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">h3</p>
+                    <img class="Piece" id="h3" src="./images/pieces/empty.png"/>
                 </div>
             </div>
             <div class="Row">
                 <div class="Square Light">
                     <p class="Location">a2</p>
+                    <img class="Piece" id="a2" src="./images/pieces/white_pawn.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">b2</p>
+                    <img class="Piece" id="b2" src="./images/pieces/white_pawn.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">c2</p>
+                    <img class="Piece" id="c2" src="./images/pieces/white_pawn.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">d2</p>
+                    <img class="Piece" id="d2" src="./images/pieces/white_pawn.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">e2</p>
+                    <img class="Piece" id="e2" src="./images/pieces/white_pawn.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">f2</p>
+                    <img class="Piece" id="f2" src="./images/pieces/white_pawn.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">g2</p>
+                    <img class="Piece" id="g2" src="./images/pieces/white_pawn.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">h2</p>
+                    <img class="Piece" id="h2" src="./images/pieces/white_pawn.png"/>
                 </div>
             </div>
             <div class="Row">
                 <div class="Square Dark">
                     <p class="Location">a1</p>
+                    <img class="Piece" id="a1" src="./images/pieces/white_rook.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">b1</p>
+                    <img class="Piece" id="b1" src="./images/pieces/white_knight.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">c1</p>
+                    <img class="Piece" id="c1" src="./images/pieces/white_bishop.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">d1</p>
+                    <img class="Piece" id="d1" src="./images/pieces/white_queen.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">e1</p>
+                    <img class="Piece" id="e1" src="./images/pieces/white_king.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">f1</p>
+                    <img class="Piece" id="f1" src="./images/pieces/white_bishop.png"/>
                 </div>
                 <div class="Square Dark">
                     <p class="Location">g1</p>
+                    <img class="Piece" id="g1" src="./images/pieces/white_knight.png"/>
                 </div>
                 <div class="Square Light">
                     <p class="Location">h1</p>
+                    <img class="Piece" id="h1" src="./images/pieces/white_rook.png"/>
                 </div>
             </div>
         </div>
