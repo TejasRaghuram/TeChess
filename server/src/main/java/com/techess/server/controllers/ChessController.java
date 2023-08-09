@@ -1,6 +1,11 @@
 package com.techess.server.controllers;
 
+import java.util.Map;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
+
+import com.techess.server.controllers.models.GameState;
 
 @RestController
 @RequestMapping("/api")
@@ -11,17 +16,19 @@ public class ChessController {
     }
 
     @GetMapping("/moves/{state}")
-    public String moves(@PathVariable String state) {
-        return "moves" + state;
+    public Map<String, List<String>> moves(@PathVariable String state) {
+        return new GameState(state).getMoves();
     }
 
     @GetMapping("/move/{state}/{start}/{end}")
     public String move(@PathVariable String state, @PathVariable String start, @PathVariable String end) {
-        return "move" + state + start + end;
+        GameState gameState = new GameState(state);
+        gameState.move(start, end);
+        return gameState.toString();
     }
 
     @GetMapping("/start")
     public String start() {
-        return "start";
+        return new GameState().toString();
     }
 }

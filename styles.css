@@ -9,58 +9,24 @@ h1 {
     line-height: 24px;
 }
 
-#Board {
-    
-    aspect-ratio: 1;
+#Board { 
+    width: 600px;
+    height: 600px;
     margin: auto;
     border-style: solid;
     border-width: 4px;
     border-color: black;
 }
 
-@media (min-height: 550px)
-{
-
-    #Board {
-        height: calc(100vh - 275px);
-    }
-
-    @media (max-width: calc(100vh - 250px))
-    {
-
-        #Board {
-            height: auto;
-            width: 80%;
-        }
-
-        #Page {
-            transform: translateY(calc(50vh - 50%));
-        }
-
-    }
-
-}
-
-@media (max-height: 550px)
-{
-
-    #Board {
-        width: 80%;
-    }
-
-}
-
 .Row {
     height: 12.5%;
-    width: 100%;
     font-size: 0;
+    display: flex;
 }
 
 .Square {
-    height: 100%;
-    width: 12.5%;
-    display: inline-block;
-    vertical-align: top;
+    flex: 1;
+    position: relative;
 }
 
 .Dark {
@@ -68,19 +34,18 @@ h1 {
 }
 
 .Location {
-    width: 25%;
-    height: 22.5%;
+    margin: 0;
+    font-size: 15px;
     color: gray;
-    margin-left: calc(75% - 2px);
-    margin-top: 2px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
 }
 
 .Piece {
     height: 80%;
     width: 80%;
     padding: 10%;
-    position: relative;
-    bottom: calc(2px + 39.5%);
 }
 
 #AWS {
@@ -103,4 +68,15 @@ h1 {
 #Github:hover {
     background-color: lightgray;
     border-color: gray;
+}
+
+@media (max-width: 700px) {
+    #Board {
+        width: 320px;
+        height: 320px;
+    }
+
+    .Location {
+        font-size: 5px;
+    }
 }
