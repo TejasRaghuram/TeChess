@@ -5,8 +5,53 @@ import java.util.List;
 import java.util.Map;
 
 public class GameState {
-    public GameState(String state) {
+    private Piece[] board;
+    private char turn;
+    private String castling;
+    private String enPassant;
+    private int halfMoveClock;
+    private int fullMoves;
 
+    public GameState(String state) {
+        String[] data = state.split(" ");
+
+        Map<Character, Piece> pieceMap = Map.ofEntries(
+            Map.entry('K', Piece.WHITE_KING),
+            Map.entry('k', Piece.BLACK_KING),
+            Map.entry('Q', Piece.WHITE_QUEEN),
+            Map.entry('q', Piece.BLACK_QUEEN),
+            Map.entry('R', Piece.WHITE_ROOK),
+            Map.entry('r', Piece.BLACK_ROOK),
+            Map.entry('B', Piece.WHITE_BISHOP),
+            Map.entry('b', Piece.BLACK_BISHOP),
+            Map.entry('N', Piece.WHITE_KNIGHT),
+            Map.entry('n', Piece.BLACK_KNIGHT),
+            Map.entry('P', Piece.WHITE_PAWN),
+            Map.entry('p', Piece.BLACK_PAWN)
+        );
+        int rank = 7;
+        int file = 0;
+        for (String row : data[0].split("/")) {
+            for (int i = 0; i < row.length(); i++) {
+                if (pieceMap.containsKey(row.charAt(i))) {
+                    board[getIndex(rank, file)] = pieceMap.get(row.charAt(i));
+                    file++;
+                } else {
+                    for (int j = 0; j < Integer.parseInt(Character.toString(row.charAt(i))); j++) {
+                        board[getIndex(rank, file)] = Piece.EMPTY;
+                        file++;
+                    }
+                }
+            }
+            rank--;
+            file = 0;
+        }
+
+        turn = data[1].charAt(0);
+        castling = data[2];
+        enPassant = data[3];
+        halfMoveClock = Integer.parseInt(data[4]);
+        fullMoves = Integer.parseInt(data[5]);
     }
 
     public GameState() {
@@ -27,5 +72,19 @@ public class GameState {
 
     public String toString() {
         return "";
+    }
+
+    private int getIndex(int rank, int file) {
+        return 8 * rank + file;
+    }
+
+    private enum Piece {
+        WHITE_KING, BLACK_KING,
+        WHITE_QUEEN, BLACK_QUEEN,
+        WHITE_ROOK, BLACK_ROOK,
+        WHITE_BISHOP, BLACK_BISHOP,
+        WHITE_KNIGHT, BLACK_KNIGHT,
+        WHITE_PAWN, BLACK_PAWN,
+        EMPTY
     }
 }
