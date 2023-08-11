@@ -71,7 +71,50 @@ public class GameState {
     }
 
     public String toString() {
-        return "";
+        String result = "";
+        
+        Map<Piece, Character> pieceMap = Map.ofEntries(
+            Map.entry(Piece.WHITE_KING, 'K'),
+            Map.entry(Piece.BLACK_KING, 'k'),
+            Map.entry(Piece.WHITE_QUEEN, 'Q'),
+            Map.entry(Piece.BLACK_QUEEN, 'q'),
+            Map.entry(Piece.WHITE_ROOK, 'R'),
+            Map.entry(Piece.BLACK_ROOK, 'r'),
+            Map.entry(Piece.WHITE_BISHOP, 'B'),
+            Map.entry(Piece.BLACK_BISHOP, 'b'),
+            Map.entry(Piece.WHITE_KNIGHT, 'N'),
+            Map.entry(Piece.BLACK_KNIGHT, 'n'),
+            Map.entry(Piece.WHITE_PAWN, 'P'),
+            Map.entry(Piece.BLACK_PAWN, 'p')
+        );
+        for (int rank = 7; rank >= 0; rank--) {
+            int blank = 0;
+            for (int file = 0; file < 8; file++) {
+                if (pieceMap.containsKey(board[getIndex(rank, file)])) {
+                    if (blank > 0) {
+                        result += Integer.toString(blank);
+                        blank = 0;
+                    }
+                    result += pieceMap.get(board[getIndex(rank, file)]);
+                } else {
+                    blank++;
+                }
+            }
+            if (blank > 0) {
+                result += Integer.toString(blank);
+                blank = 0;
+            }
+            result += "/";
+        }
+        result = result.substring(0, result.length() - 1);
+
+        result += turn + " ";
+        result += castling + " ";
+        result += enPassant + " ";
+        result += Integer.toString(halfMoveClock) + " ";
+        result += Integer.toString(fullMoves);
+        
+        return result;
     }
 
     private int getIndex(int rank, int file) {
