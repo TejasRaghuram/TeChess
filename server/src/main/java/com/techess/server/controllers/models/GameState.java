@@ -15,6 +15,7 @@ public class GameState {
     public GameState(String state) {
         String[] data = state.split(" ");
 
+        board = new Piece[64];
         Map<Character, Piece> pieceMap = Map.ofEntries(
             Map.entry('K', Piece.WHITE_KING),
             Map.entry('k', Piece.BLACK_KING),
@@ -59,7 +60,7 @@ public class GameState {
     }
 
     private static String start() {
-        return "";
+        return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     }
 
     public void move(String start, String end) {
@@ -106,7 +107,7 @@ public class GameState {
             }
             result += "/";
         }
-        result = result.substring(0, result.length() - 1);
+        result = result.substring(0, result.length() - 1) + " ";
 
         result += turn + " ";
         result += castling + " ";
