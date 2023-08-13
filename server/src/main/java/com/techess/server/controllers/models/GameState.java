@@ -1,6 +1,9 @@
 package com.techess.server.controllers.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +71,75 @@ public class GameState {
     }
 
     public Map<String, List<String>> getMoves() {
-        return new HashMap<>();
+        Map<String, List<String>> moves = new HashMap<>();
+        for (int i = 0; i < board.length; i++) {
+            if (turn == 'w' && new HashSet<>(Arrays.asList(
+                Piece.WHITE_KING, 
+                Piece.WHITE_QUEEN, 
+                Piece.WHITE_ROOK, 
+                Piece.WHITE_BISHOP, 
+                Piece.WHITE_KNIGHT, 
+                Piece.WHITE_PAWN
+            )).contains(board[i])) moves.put(getSquare(i), getMoves(i));
+            else if (turn == 'b' && new HashSet<>(Arrays.asList(
+                Piece.BLACK_KING, 
+                Piece.BLACK_QUEEN, 
+                Piece.BLACK_ROOK, 
+                Piece.BLACK_BISHOP, 
+                Piece.BLACK_KNIGHT, 
+                Piece.BLACK_PAWN
+            )).contains(board[i])) moves.put(getSquare(i), getMoves(i));
+        }
+        return moves;
+    }
+
+    private List<String> getMoves(int index) {
+        switch (board[index]) {
+            case WHITE_KING:
+            case BLACK_KING:
+                return getKingMoves(index);
+            case WHITE_QUEEN:
+            case BLACK_QUEEN:
+                return getQueenMoves(index);
+            case WHITE_ROOK:
+            case BLACK_ROOK:
+                return getRookMoves(index);
+            case WHITE_BISHOP:
+            case BLACK_BISHOP:
+                return getBishopMoves(index);
+            case WHITE_KNIGHT:
+            case BLACK_KNIGHT:
+                return getKnightMoves(index);
+            case WHITE_PAWN:
+            case BLACK_PAWN:
+                return getPawnMoves(index);
+            default:
+                return new ArrayList<>();
+        }
+    }
+
+    private List<String> getKingMoves(int index) {
+        return new ArrayList<>();
+    }
+
+    private List<String> getQueenMoves(int index) {
+        return new ArrayList<>();
+    }
+
+    private List<String> getRookMoves(int index) {
+        return new ArrayList<>();
+    }
+
+    private List<String> getBishopMoves(int index) {
+        return new ArrayList<>();
+    }
+
+    private List<String> getKnightMoves(int index) {
+        return new ArrayList<>();
+    }
+
+    private List<String> getPawnMoves(int index) {
+        return new ArrayList<>();
     }
 
     public String toString() {
@@ -120,6 +191,12 @@ public class GameState {
 
     private int getIndex(int rank, int file) {
         return 8 * rank + file;
+    }
+
+    private String getSquare(int index) {
+        int rank = index / 8;
+        int file = index % 8;
+        return ('a' + file) + Integer.toString(rank);
     }
 
     private enum Piece {
