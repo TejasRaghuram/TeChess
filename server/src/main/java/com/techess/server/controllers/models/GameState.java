@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GameState {
+    private static final String START = "rnbqkbnr-pppppppp-8-8-8-8-PPPPPPPP-RNBQKBNR w KQkq - 0 1";
+
     private Piece[] board;
     private char turn;
     private String castling;
@@ -35,7 +37,7 @@ public class GameState {
         );
         int rank = 7;
         int file = 0;
-        for (String row : data[0].split("/")) {
+        for (String row : data[0].split("-")) {
             for (int i = 0; i < row.length(); i++) {
                 if (pieceMap.containsKey(row.charAt(i))) {
                     board[getIndex(rank, file)] = pieceMap.get(row.charAt(i));
@@ -59,11 +61,7 @@ public class GameState {
     }
 
     public GameState() {
-        this(start());
-    }
-
-    private static String start() {
-        return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        this(START);
     }
 
     public void move(String start, String end) {
@@ -73,22 +71,8 @@ public class GameState {
     public Map<String, List<String>> getMoves() {
         Map<String, List<String>> moves = new HashMap<>();
         for (int i = 0; i < board.length; i++) {
-            if (turn == 'w' && new HashSet<>(Arrays.asList(
-                Piece.WHITE_KING, 
-                Piece.WHITE_QUEEN, 
-                Piece.WHITE_ROOK, 
-                Piece.WHITE_BISHOP, 
-                Piece.WHITE_KNIGHT, 
-                Piece.WHITE_PAWN
-            )).contains(board[i])) moves.put(getSquare(i), getMoves(i));
-            else if (turn == 'b' && new HashSet<>(Arrays.asList(
-                Piece.BLACK_KING, 
-                Piece.BLACK_QUEEN, 
-                Piece.BLACK_ROOK, 
-                Piece.BLACK_BISHOP, 
-                Piece.BLACK_KNIGHT, 
-                Piece.BLACK_PAWN
-            )).contains(board[i])) moves.put(getSquare(i), getMoves(i));
+            if (turn == 'w' && isWhite(i)) moves.put(getSquare(i), getMoves(i));
+            else if (turn == 'b' && isBlack(i)) moves.put(getSquare(i), getMoves(i));
         }
         return moves;
     }
@@ -119,7 +103,20 @@ public class GameState {
     }
 
     private List<String> getKingMoves(int index) {
-        return new ArrayList<>();
+        List<String> moves = new ArrayList<>();
+        int rank = index / 8;
+        int file = index % 8;
+        for (int i = Math.max(rank - 1, 0); i <= Math.min(rank + 1, 7); i++) {
+            for (int j = Math.max(file - 1, 0); j <= Math.min(file + 1, 7); j++) {
+                if (i != rank || j != file) {
+                    int neighbor = getIndex(i, j);
+                    if (board[neighbor] == Piece.EMPTY || (isWhite(index) && isBlack(neighbor)) || (isBlack(index) && isWhite(neighbor))) {
+                        moves.add(getSquare(neighbor));
+                    }
+                }
+            }
+        }
+        return moves;
     }
 
     private List<String> getQueenMoves(int index) {
@@ -176,7 +173,7 @@ public class GameState {
                 result += Integer.toString(blank);
                 blank = 0;
             }
-            result += "/";
+            result += "-";
         }
         result = result.substring(0, result.length() - 1) + " ";
 
@@ -194,9 +191,31 @@ public class GameState {
     }
 
     private String getSquare(int index) {
-        int rank = index / 8;
+        int rank = index / 8 + 1;
         int file = index % 8;
-        return ('a' + file) + Integer.toString(rank);
+        return Character.toString('a' + file) + Integer.toString(rank);
+    }
+
+    private boolean isWhite(int index) {
+        return new HashSet<>(Arrays.asList(
+            Piece.WHITE_KING, 
+            Piece.WHITE_QUEEN, 
+            Piece.WHITE_ROOK, 
+            Piece.WHITE_BISHOP, 
+            Piece.WHITE_KNIGHT, 
+            Piece.WHITE_PAWN
+        )).contains(board[index]);
+    }
+
+    private boolean isBlack(int index) {
+        return new HashSet<>(Arrays.asList(
+            Piece.BLACK_KING, 
+            Piece.BLACK_QUEEN, 
+            Piece.BLACK_ROOK, 
+            Piece.BLACK_BISHOP, 
+            Piece.BLACK_KNIGHT, 
+            Piece.BLACK_PAWN
+        )).contains(board[index]);
     }
 
     private enum Piece {
