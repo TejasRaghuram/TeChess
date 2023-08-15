@@ -136,7 +136,25 @@ public class GameState {
     }
 
     private List<String> getPawnMoves(int index) {
-        return new ArrayList<>();
+        List<String> moves = new ArrayList<>();
+        int rank = index / 8;
+        int file = index % 8;
+        if (isWhite(index)) {
+            if (board[getIndex(rank + 1, file)] == Piece.EMPTY) {
+                moves.add(getSquare(getIndex(rank + 1, file)));
+                if (rank == 1 && board[getIndex(rank + 2, file)] == Piece.EMPTY) moves.add(getSquare(getIndex(rank + 2, file)));
+            }
+            if (isBlack(getIndex(rank + 1, file + 1))) moves.add(getSquare(getIndex(rank + 1, file + 1)));
+            if (isBlack(getIndex(rank + 1, file - 1))) moves.add(getSquare(getIndex(rank + 1, file - 1)));
+        } else if (isBlack(index)) {
+            if (board[getIndex(rank - 1, file)] == Piece.EMPTY) {
+                moves.add(getSquare(getIndex(rank - 1, file)));
+                if (rank == 6 && board[getIndex(rank - 2, file)] == Piece.EMPTY) moves.add(getSquare(getIndex(rank - 2, file)));
+            }
+            if (isWhite(getIndex(rank - 1, file + 1))) moves.add(getSquare(getIndex(rank - 1, file + 1)));
+            if (isWhite(getIndex(rank - 1, file - 1))) moves.add(getSquare(getIndex(rank - 1, file - 1)));
+        }
+        return moves;
     }
 
     public String toString() {
