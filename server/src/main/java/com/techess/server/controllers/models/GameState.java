@@ -124,7 +124,50 @@ public class GameState {
     }
 
     private List<String> getRookMoves(int index) {
-        return new ArrayList<>();
+        List<String> moves = new ArrayList<>();
+        int rank = index / 8;
+        int file = index % 8;
+        for (int i = rank + 1; i <= 7; i++) {
+            if (board[getIndex(i, file)] == Piece.EMPTY) {
+                moves.add(getSquare(getIndex(i, file)));
+            } else {
+                if ((isWhite(index) && isBlack(getIndex(i, file))) || (isBlack(index) && isWhite(getIndex(i, file)))) {
+                    moves.add(getSquare(getIndex(i, file)));
+                }
+                break;
+            }
+        }
+        for (int i = rank - 1; i >= 0; i--) {
+            if (board[getIndex(i, file)] == Piece.EMPTY) {
+                moves.add(getSquare(getIndex(i, file)));
+            } else {
+                if ((isWhite(index) && isBlack(getIndex(i, file))) || (isBlack(index) && isWhite(getIndex(i, file)))) {
+                    moves.add(getSquare(getIndex(i, file)));
+                }
+                break;
+            }
+        }
+        for (int i = file + 1; i <= 7; i++) {
+            if (board[getIndex(rank, i)] == Piece.EMPTY) {
+                moves.add(getSquare(getIndex(rank, i)));
+            } else {
+                if ((isWhite(index) && isBlack(getIndex(rank, i))) || (isBlack(index) && isWhite(getIndex(rank, i)))) {
+                    moves.add(getSquare(getIndex(rank, i)));
+                }
+                break;
+            }
+        }
+        for (int i = file - 1; i >= 0; i--) {
+            if (board[getIndex(rank, i)] == Piece.EMPTY) {
+                moves.add(getSquare(getIndex(rank, i)));
+            } else {
+                if ((isWhite(index) && isBlack(getIndex(rank, i))) || (isBlack(index) && isWhite(getIndex(rank, i)))) {
+                    moves.add(getSquare(getIndex(rank, i)));
+                }
+                break;
+            }
+        }
+        return moves;
     }
 
     private List<String> getBishopMoves(int index) {
