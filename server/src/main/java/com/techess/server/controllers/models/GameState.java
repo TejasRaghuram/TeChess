@@ -124,54 +124,13 @@ public class GameState {
     }
 
     private List<String> getRookMoves(int index) {
-        List<String> moves = new ArrayList<>();
-        int rank = index / 8;
-        int file = index % 8;
-        for (int i = rank + 1; i <= 7; i++) {
-            if (board[getIndex(i, file)] == Piece.EMPTY) {
-                moves.add(getSquare(getIndex(i, file)));
-            } else {
-                if ((isWhite(index) && isBlack(getIndex(i, file))) || (isBlack(index) && isWhite(getIndex(i, file)))) {
-                    moves.add(getSquare(getIndex(i, file)));
-                }
-                break;
-            }
-        }
-        for (int i = rank - 1; i >= 0; i--) {
-            if (board[getIndex(i, file)] == Piece.EMPTY) {
-                moves.add(getSquare(getIndex(i, file)));
-            } else {
-                if ((isWhite(index) && isBlack(getIndex(i, file))) || (isBlack(index) && isWhite(getIndex(i, file)))) {
-                    moves.add(getSquare(getIndex(i, file)));
-                }
-                break;
-            }
-        }
-        for (int i = file + 1; i <= 7; i++) {
-            if (board[getIndex(rank, i)] == Piece.EMPTY) {
-                moves.add(getSquare(getIndex(rank, i)));
-            } else {
-                if ((isWhite(index) && isBlack(getIndex(rank, i))) || (isBlack(index) && isWhite(getIndex(rank, i)))) {
-                    moves.add(getSquare(getIndex(rank, i)));
-                }
-                break;
-            }
-        }
-        for (int i = file - 1; i >= 0; i--) {
-            if (board[getIndex(rank, i)] == Piece.EMPTY) {
-                moves.add(getSquare(getIndex(rank, i)));
-            } else {
-                if ((isWhite(index) && isBlack(getIndex(rank, i))) || (isBlack(index) && isWhite(getIndex(rank, i)))) {
-                    moves.add(getSquare(getIndex(rank, i)));
-                }
-                break;
-            }
-        }
-        return moves;
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        return getLineMoves(index, directions);
     }
 
     private List<String> getBishopMoves(int index) {
-        return new ArrayList<>();
+        int[][] directions = {{1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
+        return getLineMoves(index, directions);
     }
 
     private List<String> getKnightMoves(int index) {
@@ -182,20 +141,40 @@ public class GameState {
         List<String> moves = new ArrayList<>();
         int rank = index / 8;
         int file = index % 8;
-        if (isWhite(index)) {
-            if (board[getIndex(rank + 1, file)] == Piece.EMPTY) {
-                moves.add(getSquare(getIndex(rank + 1, file)));
-                if (rank == 1 && board[getIndex(rank + 2, file)] == Piece.EMPTY) moves.add(getSquare(getIndex(rank + 2, file)));
+        int direction = isWhite(index) ? 1 : -1;
+        int start = isWhite(index) ? 1 : 6;
+        if (board[getIndex(rank + direction, file)] == Piece.EMPTY) {
+            moves.add(getSquare(rank + direction, file));
+            if (rank == start && board[getIndex(rank + 2 * direction, file)] == Piece.EMPTY) moves.add(getSquare(rank + 2 * direction, file));
+            if ((isWhite(index) && isBlack(getIndex(rank + direction, file + 1))) || (isBlack(index) && isWhite(getIndex(rank + direction, file + 1)))) {
+                moves.add(getSquare(rank + direction, file + 1));
             }
-            if (isBlack(getIndex(rank + 1, file + 1))) moves.add(getSquare(getIndex(rank + 1, file + 1)));
-            if (isBlack(getIndex(rank + 1, file - 1))) moves.add(getSquare(getIndex(rank + 1, file - 1)));
-        } else if (isBlack(index)) {
-            if (board[getIndex(rank - 1, file)] == Piece.EMPTY) {
-                moves.add(getSquare(getIndex(rank - 1, file)));
-                if (rank == 6 && board[getIndex(rank - 2, file)] == Piece.EMPTY) moves.add(getSquare(getIndex(rank - 2, file)));
+            if ((isWhite(index) && isBlack(getIndex(rank + direction, file - 1))) || (isBlack(index) && isWhite(getIndex(rank + direction, file - 1)))) {
+                moves.add(getSquare(rank + direction, file - 1));
             }
-            if (isWhite(getIndex(rank - 1, file + 1))) moves.add(getSquare(getIndex(rank - 1, file + 1)));
-            if (isWhite(getIndex(rank - 1, file - 1))) moves.add(getSquare(getIndex(rank - 1, file - 1)));
+        }
+        return moves;
+    }
+
+    private List<String> getLineMoves(int index, int[][] directions) {
+        List<String> moves = new ArrayList<>();
+        int rank = index / 8;
+        int file = index % 8;
+        for (int[] direction : directions) {
+            int r = rank + direction[0];
+            int f = file + direction[1];
+            while (0 <= r && r <= 7 && 0 <= f && f <= 7) {
+                if (board[getIndex(r, f)] == Piece.EMPTY) {
+                    moves.add(getSquare(r, f));
+                    r += direction[0];
+                    f += direction[1];
+                } else {
+                    if ((isWhite(index) && isBlack(getIndex(r, f))) || (isBlack(index) && isWhite(getIndex(r, f)))) {
+                        moves.add(getSquare(r, f));
+                    }
+                    break;
+                }
+            }
         }
         return moves;
     }
@@ -252,9 +231,13 @@ public class GameState {
     }
 
     private String getSquare(int index) {
-        int rank = index / 8 + 1;
+        int rank = index / 8;
         int file = index % 8;
-        return Character.toString('a' + file) + Integer.toString(rank);
+        return getSquare(rank, file);
+    }
+
+    private String getSquare(int rank, int file) {
+        return Character.toString('a' + file) + Integer.toString(rank + 1);
     }
 
     private boolean isWhite(int index) {
