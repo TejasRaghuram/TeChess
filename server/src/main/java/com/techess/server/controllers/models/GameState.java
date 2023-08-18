@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GameState {
     private static final String START = "rnbqkbnr-pppppppp-8-8-8-8-PPPPPPPP-RNBQKBNR w KQkq - 0 1";
 
     private Piece[] board;
     private char turn;
-    private String castling;
+    private Set<Character> castling;
     private String enPassant;
     private int halfMoveClock;
     private int fullMoves;
@@ -54,7 +55,8 @@ public class GameState {
         }
 
         turn = data[1].charAt(0);
-        castling = data[2];
+        castling = new HashSet<>();
+        for (int i = 0; i < data[2].length(); i++) castling.add(data[2].charAt(i));
         enPassant = data[3];
         halfMoveClock = Integer.parseInt(data[4]);
         fullMoves = Integer.parseInt(data[5]);
@@ -120,7 +122,8 @@ public class GameState {
     }
 
     private List<String> getQueenMoves(int index) {
-        return new ArrayList<>();
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
+        return getLineMoves(index, directions);
     }
 
     private List<String> getRookMoves(int index) {
@@ -218,7 +221,8 @@ public class GameState {
         result = result.substring(0, result.length() - 1) + " ";
 
         result += turn + " ";
-        result += castling + " ";
+        for (Character c : castling) result += c;
+        result += " ";
         result += enPassant + " ";
         result += Integer.toString(halfMoveClock) + " ";
         result += Integer.toString(fullMoves);
