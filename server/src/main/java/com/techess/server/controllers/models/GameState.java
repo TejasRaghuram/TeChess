@@ -137,7 +137,18 @@ public class GameState {
     }
 
     private List<String> getKnightMoves(int index) {
-        return new ArrayList<>();
+        List<String> moves = new ArrayList<>();
+        int rank = index / 8;
+        int file = index % 8;
+        int[][] targets = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
+        for (int[] target : targets) {
+            int r = rank + target[0];
+            int f = file + target[1];
+            if (0 <= r && r <= 7 && 0 <= f && f <= 7) {
+                if ((isWhite(index) && !isWhite(getIndex(r, f))) || (isBlack(index) && !isBlack(getIndex(r, f)))) moves.add(getSquare(r, f));
+            }
+        }
+        return moves;
     }
 
     private List<String> getPawnMoves(int index) {
