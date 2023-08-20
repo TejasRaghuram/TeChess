@@ -67,7 +67,22 @@ public class GameState {
     }
 
     public void move(String start, String end) {
+        int startRank = Integer.parseInt(start.substring(1)) - 1;
+        int startFile = (int) (start.charAt(0) - 'a');
+        int endRank = Integer.parseInt(end.substring(1)) - 1;
+        int endFile = (int) (end.charAt(0) - 'a');
 
+        Piece piece = board[getIndex(startRank, startFile)];
+
+        if (piece == Piece.WHITE_PAWN || piece == Piece.BLACK_PAWN || board[getIndex(endRank, endFile)] != Piece.EMPTY) halfMoveClock = 0;
+        else halfMoveClock++;
+
+        board[getIndex(endRank, endFile)] = piece;
+        board[getIndex(startRank, startFile)] = Piece.EMPTY;
+
+        turn = turn == 'w' ? 'b' : 'w';
+
+        if (turn == 'w') fullMoves++;
     }
 
     public Map<String, List<String>> getMoves() {
