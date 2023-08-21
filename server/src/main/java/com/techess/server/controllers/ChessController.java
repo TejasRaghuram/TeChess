@@ -12,7 +12,17 @@ import com.techess.server.controllers.models.GameState;
 public class ChessController {
     @GetMapping("/compute/{state}")
     public String compute(@PathVariable String state) {
-        return "compute" + state;
+        GameState gameState = new GameState(state);
+        Map<String, List<String>> moves = gameState.getMoves();
+        int i = (int) (Math.random() * moves.values().stream().mapToInt(List::size).sum());
+        for (String start : moves.keySet()) {
+            if (i >= moves.get(start).size()) i -= moves.get(start).size();
+            else {
+                gameState.move(start, moves.get(start).get(i));
+                break;
+            }
+        }
+        return gameState.toString();
     }
 
     @GetMapping("/moves/{state}")

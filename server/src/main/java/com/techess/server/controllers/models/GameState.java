@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -86,15 +87,38 @@ public class GameState {
     }
 
     public Map<String, List<String>> getMoves() {
-        Map<String, List<String>> moves = new HashMap<>();
-        for (int i = 0; i < board.length; i++) {
-            if (turn == 'w' && isWhite(i)) moves.put(getSquare(i), getMoves(i));
-            else if (turn == 'b' && isBlack(i)) moves.put(getSquare(i), getMoves(i));
+        Map<String, List<String>> moves = getPseudoMoves();
+        for (String start : moves.keySet()) {
+            Iterator<String> iterator = moves.get(start).iterator();
+            while (iterator.hasNext()) {
+                String end = iterator.next();
+                GameState potential = new GameState(this.toString());
+                potential.move(start, end);
+                String king = "";
+                for (int i = 0; i < board.length; i++) {
+                    if ((turn == 'w' && potential.board[i] == Piece.WHITE_KING) || (turn == 'b' && potential.board[i] == Piece.BLACK_KING)) {
+                        king = getSquare(i);
+                    }
+                }
+                Map<String, List<String>> targets = potential.getPseudoMoves();
+                verification: for (List<String> l : targets.values()) for (String s : l) if (s.equals(king)) {
+                    iterator.remove();
+                    break verification;
+                }
+            }
         }
         return moves;
     }
 
-    private List<String> getMoves(int index) {
+    private Map<String, List<String>> getPseudoMoves() {
+        Map<String, List<String>> moves = new HashMap<>();
+        for (int i = 0; i < board.length; i++) {
+            if ((turn == 'w' && isWhite(i)) || (turn == 'b' && isBlack(i))) moves.put(getSquare(i), getPseudoMoves(i));
+        }
+        return moves;
+    }
+
+    private List<String> getPseudoMoves(int index) {
         switch (board[index]) {
             case WHITE_KING:
             case BLACK_KING:
