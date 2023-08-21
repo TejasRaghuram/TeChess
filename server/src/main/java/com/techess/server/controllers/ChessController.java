@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.techess.server.controllers.models.GameState;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/api")
 public class ChessController {
