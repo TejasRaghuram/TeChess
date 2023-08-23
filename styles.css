@@ -29,8 +29,20 @@ h1 {
     position: relative;
 }
 
+.Light {
+    background-color: white;
+}
+
 .Dark {
     background-color: lightgray;
+}
+
+.Selected {
+    background-color: skyblue;
+}
+
+.Option {
+    background-color: lightblue;
 }
 
 .Location {

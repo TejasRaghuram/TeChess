@@ -107,6 +107,7 @@ public class GameState {
                 }
             }
         }
+        moves.entrySet().removeIf(entry -> entry.getValue().isEmpty());
         return moves;
     }
 
@@ -199,12 +200,12 @@ public class GameState {
         if (board[getIndex(rank + direction, file)] == Piece.EMPTY) {
             moves.add(getSquare(rank + direction, file));
             if (rank == start && board[getIndex(rank + 2 * direction, file)] == Piece.EMPTY) moves.add(getSquare(rank + 2 * direction, file));
-            if ((isWhite(index) && isBlack(getIndex(rank + direction, file + 1))) || (isBlack(index) && isWhite(getIndex(rank + direction, file + 1)))) {
-                moves.add(getSquare(rank + direction, file + 1));
-            }
-            if ((isWhite(index) && isBlack(getIndex(rank + direction, file - 1))) || (isBlack(index) && isWhite(getIndex(rank + direction, file - 1)))) {
-                moves.add(getSquare(rank + direction, file - 1));
-            }
+        }
+        if ((isWhite(index) && isBlack(getIndex(rank + direction, file + 1))) || (isBlack(index) && isWhite(getIndex(rank + direction, file + 1)))) {
+            moves.add(getSquare(rank + direction, file + 1));
+        }
+        if ((isWhite(index) && isBlack(getIndex(rank + direction, file - 1))) || (isBlack(index) && isWhite(getIndex(rank + direction, file - 1)))) {
+            moves.add(getSquare(rank + direction, file - 1));
         }
         return moves;
     }
