@@ -2,6 +2,7 @@ var state = "";
 var moves = {};
 var selection = '';
 var canMove = false;
+var playing = true;
 
 function init() {
     const board = document.getElementById('Board');
@@ -69,7 +70,16 @@ function render() {
         'p': './images/pieces/black_pawn.png',
         '-': './images/pieces/empty.png',
     };
-    const board = state.split(' ')[0];
+    const parts = state.split(' ');
+    var board;
+    if (parts[0].length == 1) {
+        board = parts[1];
+        document.getElementById("Status").textContent = parts[0] == 'w' ? 'White Wins' : (parts[0] == 'b' ? 'Black Wins' : 'Draw');
+        playing = false;
+    } else {
+        board = parts[0];
+        document.getElementById("Status").textContent = state.split(' ')[1] == 'w' ? 'White to Move' : 'Black to Move';
+    }
     var rank = 8;
     for (const line of board.split('-')) {
         var file = 'a';
@@ -86,8 +96,6 @@ function render() {
         }
         rank--;
     }
-
-    document.getElementById("Status").textContent = state.split(' ')[1] == 'w' ? 'White to Move' : 'Black to Move';
 }
 
 function movement(square) {
@@ -104,7 +112,7 @@ function movement(square) {
                     selection = '';
                     canMove = false;
                     render();
-                    computerMove();
+                    if (playing) computerMove();
                 });
         } else if (selection != square.id && square.id in moves) {
             square.parentElement.classList.add('Selected');
