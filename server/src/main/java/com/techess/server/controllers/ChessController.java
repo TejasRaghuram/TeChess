@@ -1,61 +1,70 @@
 package com.techess.server.controllers;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
 import com.techess.server.controllers.models.GameState;
+import com.techess.server.controllers.models.Move;
+import com.techess.server.controllers.models.MoveGenerator;
+import com.techess.server.controllers.models.Simulator;
 
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/api")
 public class ChessController {
-    @GetMapping("/compute/{state}")
-    public String compute(@PathVariable String state) {
+
+    @GetMapping("/compute")
+    public String compute(@RequestParam String state) {
         GameState gameState = new GameState(state);
-        String turn = state.split(" ")[1];
-        Map<String, List<String>> moves = gameState.getMoves();
-        String start = "";
-        String end = "";
+        char turn = gameState.getTurn();
+        List<Move> moves = MoveGenerator.getMoves(gameState);
+        Move move = null;
         int maxScore = Integer.MIN_VALUE;
-        for (String s : moves.keySet()) {
-            for (String e : moves.get(s)) {
-                GameState potential = new GameState(gameState);
-                potential.move(s, e);
-                int score = 0;
-                for (int i = 0; i < 100; i++) {
-                    String result = potential.simulateGame();
-                    if (result.equals(turn)) score++;
-                    else if (result.equals("w") || result.equals("b")) score--;
-                }
-                if (score > maxScore) {
-                    start = s;
-                    end = e;
-                    maxScore = score;
-                }
+        for (Move possibility : moves) {
+            GameState potential = new GameState(gameState);
+            Move.apply(potential, possibility);
+            int score = 0;
+            for (int i = 0; i < 100; i++) {
+                char result = Simulator.simulateGame(potential);
+                if (result == turn) score++;
+                else if (result == 'w' || result == 'b') score--;
+            }
+            if (score > maxScore) {
+                move = possibility;
+                maxScore = score;
             }
         }
-        gameState.move(start, end);
-        String status = gameState.gameStatus();
-        return (status.equals("") ? "" : gameState.gameStatus() + " ") + gameState.toString();
+        Move.apply(gameState, move);
+        char status = gameState.getStatus();
+        return (status == '-' ? "" : status + " ") + gameState.toString();
     }
 
-    @GetMapping("/moves/{state}")
-    public Map<String, List<String>> moves(@PathVariable String state) {
-        return new GameState(state).getMoves();
+    @GetMapping("/moves")
+    public Map<String, List<String>> moves(@RequestParam String state) {
+        Map<String, List<String>> result = new HashMap<>();
+        List<Move> moves = MoveGenerator.getMoves(new GameState(state));
+        for (Move move : moves) {
+            if (!result.containsKey(move.getFrom())) result.put(move.getFrom(), new ArrayList<>());
+            result.get(move.getFrom()).add(move.getTo());
+        }
+        return result;
     }
 
-    @GetMapping("/move/{state}/{start}/{end}")
-    public String move(@PathVariable String state, @PathVariable String start, @PathVariable String end) {
+    @GetMapping("/move")
+    public String move(@RequestParam String state, @RequestParam String from, @RequestParam String to) {
         GameState gameState = new GameState(state);
-        gameState.move(start, end);
-        String status = gameState.gameStatus();
-        return (status.equals("") ? "" : gameState.gameStatus() + " ") + gameState.toString();
+        Move.apply(gameState, new Move(from, to));
+        char status = gameState.getStatus();
+        return (status == '-' ? "" : gameState.getStatus() + " ") + gameState.toString();
     }
 
     @GetMapping("/start")
     public String start() {
         return new GameState().toString();
     }
+    
 }

@@ -3,6 +3,7 @@ var moves = {};
 var selection = '';
 var canMove = false;
 var playing = true;
+const API = 'http://localhost:8080/api/';
 
 function init() {
     const board = document.getElementById('Board');
@@ -36,13 +37,16 @@ function init() {
         count++;
     }
 
-    fetch('http://localhost:8080/api/start')
+    const startURL = new URL(API + 'start');
+    fetch(startURL)
         .then(response => {
             return response.text();
         })
         .then(data => {
             state = data;
-            fetch(`http://localhost:8080/api/moves/${state}`)
+            const movesURL = new URL(API + 'moves');
+            movesURL.searchParams.set('state', state);
+            fetch(movesURL)
                 .then(response => {
                     return response.json();
                 })
@@ -81,7 +85,7 @@ function render() {
         document.getElementById("Status").textContent = state.split(' ')[1] == 'w' ? 'White to Move' : 'Black to Move';
     }
     var rank = 8;
-    for (const line of board.split('-')) {
+    for (const line of board.split('/')) {
         var file = 'a';
         for (const piece of line) {
             if (piece in pieces) {
@@ -102,7 +106,11 @@ function movement(square) {
     if (canMove) {
         refresh();
         if (selection != '' && moves[selection].includes(square.id)) {
-            fetch(`http://localhost:8080/api/move/${state}/${selection}/${square.id}`)
+            const moveURL = new URL(API + 'move');
+            moveURL.searchParams.set('state', state);
+            moveURL.searchParams.set('from', selection);
+            moveURL.searchParams.set('to', square.id);
+            fetch(moveURL)
                 .then(response => {
                     return response.text();
                 })
@@ -127,13 +135,17 @@ function movement(square) {
 }
 
 function computerMove() {
-    fetch(`http://localhost:8080/api/compute/${state}`)
+    const computeURL = new URL(API + 'compute');
+    computeURL.searchParams.set('state', state);
+    fetch(computeURL)
         .then(response => {
             return response.text();
         })
         .then(data => {
             state = data;
-            fetch(`http://localhost:8080/api/moves/${state}`)
+            const movesURL = new URL(API + 'moves');
+            movesURL.searchParams.set('state', state);
+            fetch(movesURL)
                 .then(response => {
                     return response.json();
                 })
